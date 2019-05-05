@@ -15,31 +15,31 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Vizing%27s Algorithm\Vizing%27s Algorithm\adj.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Vizing%27s Algorithm\Vizing%27s Algorithm\Array.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Vizing%27s Algorithm\Vizing%27s Algorithm\Boolean.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Vizing%27s Algorithm\Vizing%27s Algorithm\Edge.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Vizing%27s Algorithm\Vizing%27s Algorithm\list.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Vizing%27s Algorithm\Vizing%27s Algorithm\graph.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Vizing%27s Algorithm\Vizing%27s Algorithm\color.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\Vizing%27s Algorithm\Vizing%27s Algorithm\VizingAlgorithmAnimation\Vizing%27s Algorithm\color.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Vizing%27s Algorithm\Vizing%27s Algorithm\VizingAlgorithmAnimation\Vizing%27s Algorithm\Edge.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Vizing%27s Algorithm\Vizing%27s Algorithm\VizingAlgorithmAnimation\Vizing%27s Algorithm\graph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Vizing%27s Algorithm\Vizing%27s Algorithm\VizingAlgorithmAnimation\Vizing%27s Algorithm\list.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Vizing%27s Algorithm\Vizing%27s Algorithm\VizingAlgorithmAnimation\Vizing%27s Algorithm\adj.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Vizing%27s Algorithm\Vizing%27s Algorithm\VizingAlgorithmAnimation\Vizing%27s Algorithm\Array.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Vizing%27s Algorithm\Vizing%27s Algorithm\VizingAlgorithmAnimation\Vizing%27s Algorithm\Boolean.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

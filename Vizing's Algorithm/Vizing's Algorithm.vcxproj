@@ -115,16 +115,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Vizing%27s Algorithm\Vizing%27s Algorithm\adj.h" />
-    <ClInclude Include="..\..\Vizing%27s Algorithm\Vizing%27s Algorithm\Array.h" />
-    <ClInclude Include="..\..\Vizing%27s Algorithm\Vizing%27s Algorithm\Boolean.h" />
-    <ClInclude Include="..\..\Vizing%27s Algorithm\Vizing%27s Algorithm\color.h" />
-    <ClInclude Include="..\..\Vizing%27s Algorithm\Vizing%27s Algorithm\Edge.h" />
-    <ClInclude Include="..\..\Vizing%27s Algorithm\Vizing%27s Algorithm\graph.h" />
-    <ClInclude Include="..\..\Vizing%27s Algorithm\Vizing%27s Algorithm\list.h" />
+    <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp" />
+    <ClInclude Include="..\..\..\..\Vizing%27s Algorithm\Vizing%27s Algorithm\VizingAlgorithmAnimation\Vizing%27s Algorithm\adj.h" />
+    <ClInclude Include="..\..\..\..\Vizing%27s Algorithm\Vizing%27s Algorithm\VizingAlgorithmAnimation\Vizing%27s Algorithm\Array.h" />
+    <ClInclude Include="..\..\..\..\Vizing%27s Algorithm\Vizing%27s Algorithm\VizingAlgorithmAnimation\Vizing%27s Algorithm\Boolean.h" />
+    <ClInclude Include="..\..\..\..\Vizing%27s Algorithm\Vizing%27s Algorithm\VizingAlgorithmAnimation\Vizing%27s Algorithm\color.h" />
+    <ClInclude Include="..\..\..\..\Vizing%27s Algorithm\Vizing%27s Algorithm\VizingAlgorithmAnimation\Vizing%27s Algorithm\Edge.h" />
+    <ClInclude Include="..\..\..\..\Vizing%27s Algorithm\Vizing%27s Algorithm\VizingAlgorithmAnimation\Vizing%27s Algorithm\graph.h" />
+    <ClInclude Include="..\..\..\..\Vizing%27s Algorithm\Vizing%27s Algorithm\VizingAlgorithmAnimation\Vizing%27s Algorithm\list.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

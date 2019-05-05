@@ -1,4 +1,6 @@
 #include <iostream>
+#include <sstream>
+#include <string>
 #include "color.h"
 #include "graph.h"
 
@@ -6,6 +8,9 @@ using namespace std;
 
 int main()
 {
+	istringstream iss("4 6 1 2 1 3 1 4 2 3 2 4 3 4");
+	cin.rdbuf(iss.rdbuf());
+
 	int v, e;
 	cin >> v;
 	cin >> e;

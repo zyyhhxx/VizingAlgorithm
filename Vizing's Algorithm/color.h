@@ -12,13 +12,14 @@ typedef Color* ColorPtr;
 //if color = 0, the edge is uncolored (default value);
 //color starts from 1 to max.
 
-class ColorGraph {
+class __declspec(dllexport) ColorGraph {
 	friend  ostream& operator<<(ostream &output, const ColorGraph &graph);
 
 public:
 	Document doc;
 	Value stepArray;
 
+	ColorGraph(string setup);
 	ColorGraph(int, Array<Edge>);
 	ColorGraph(int v, int e);
 
@@ -44,6 +45,68 @@ private:
 	int count; //count # of edges already colored;
 
 };
+
+
+ColorGraph::ColorGraph(string setup) {
+	istringstream iss(setup);
+	cin.rdbuf(iss.rdbuf());
+
+	int v, e;
+	cin >> v;
+	cin >> e;
+	Array<Edge> A(e);
+
+
+	for (int i = 0; i < e; i++) {
+		int x, y;
+		cin >> x >> y;
+		Edge tmp(x, y);
+		A.insert(i, tmp);
+	}
+
+	doc.SetArray();
+	G = new Graph(v, A);
+	int size = A.getSize();
+	count = 0;
+
+	max = G->maxDegree() + 1;
+
+	//color initialization;
+
+	colorMatrix = new ColorPtr[v];
+
+	for (int i = 0; i < v; i++) {
+
+		colorMatrix[i] = new Color[v];
+		for (int j = 0; j < v; j++)
+			colorMatrix[i][j] = 0;
+	}
+
+	//start coloring processing
+	while (count < size) {
+		//Initialize the array for the current step
+		Document::AllocatorType& allocator = doc.GetAllocator();
+		stepArray = Value(kArrayType);
+		Value edge(kArrayType);
+		edge.PushBack(A[count].startVx, allocator);
+		edge.PushBack(A[count].endVx, allocator);
+		stepArray.PushBack(edge, allocator);
+		cout << "Coloring " << A[count];
+		if (count < max) {
+			int start = A[count].startVx;
+			int end = A[count].endVx;
+			colorMatrix[start - 1][end - 1] = ++count;
+			colorMatrix[end - 1][start - 1] = count;
+			reportChange(start, end, 0, count);
+		}
+		else {
+			//coloring one more edge;
+			AddOneEdge(A, count++);
+		}
+		doc.PushBack(stepArray, allocator);
+	}
+}
+
 
 ColorGraph::ColorGraph(int v, Array<Edge> A)
 {

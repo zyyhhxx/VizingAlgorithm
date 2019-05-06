@@ -29,5 +29,7 @@ int main()
 	cout << v << endl << e << endl;
 
 	cout << G << endl;
+
+	cout << G.json() << endl;
 	system("pause");
 }

@@ -2,6 +2,10 @@
 #define COLOR_H
 #include "graph.h"
 #include <assert.h>
+#include "Resources/rapidjson/document.h"     // rapidjson's DOM-style API
+#include "Resources/rapidjson/prettywriter.h" // for stringify JSON
+
+using namespace rapidjson;
 
 typedef Color* ColorPtr;
 
@@ -12,6 +16,9 @@ class ColorGraph {
 	friend  ostream& operator<<(ostream &output, const ColorGraph &graph);
 
 public:
+	Document doc;
+	Value stepArray;
+
 	ColorGraph(int, Array<Edge>);
 	ColorGraph(int v, int e);
 
@@ -24,6 +31,8 @@ public:
 	Array<Edge> searchEdges(Array<Edge> A, Color s, Color t);
 	Graph* subGraph(Array<Edge> A, Color s, Color t);
 	void switchColor(Graph *subPtr, Color s, Color t, int vertex);
+	void reportChange(int v1, int v2, int oldColor, int newColor);
+	string json();
 
 
 private:
@@ -36,13 +45,9 @@ private:
 
 };
 
-void reportChange(int v1, int v2, int oldColor, int newColor) {
-	cout << "Colorchange: " << v1 << "," << v2 << " from " << oldColor << " to " << newColor << endl;
-}
-
-
 ColorGraph::ColorGraph(int v, Array<Edge> A)
 {
+	doc.SetArray();
 	G = new Graph(v, A);
 	int size = A.getSize();
 	count = 0;
@@ -62,6 +67,13 @@ ColorGraph::ColorGraph(int v, Array<Edge> A)
 
 	//start coloring processing
 	while (count < size) {
+		//Initialize the array for the current step
+		Document::AllocatorType& allocator = doc.GetAllocator();
+		stepArray = Value(kArrayType);
+		Value edge(kArrayType);
+		edge.PushBack(A[count].startVx, allocator);
+		edge.PushBack(A[count].endVx, allocator);
+		stepArray.PushBack(edge, allocator);
 		cout << "Coloring " << A[count];
 		if (count < max) {
 			int start = A[count].startVx;
@@ -74,6 +86,7 @@ ColorGraph::ColorGraph(int v, Array<Edge> A)
 			//coloring one more edge;
 			AddOneEdge(A, count++);
 		}
+		doc.PushBack(stepArray, allocator);
 	}
 }
 
@@ -81,6 +94,7 @@ ColorGraph::ColorGraph(int v, Array<Edge> A)
 
 ColorGraph::ColorGraph(int v, int e)
 {
+	doc.SetArray();
 	G = new Graph(v);
 	colorMatrix = new ColorPtr[v];
 
@@ -90,6 +104,29 @@ ColorGraph::ColorGraph(int v, int e)
 			colorMatrix[i][j] = 0;
 	}
 	count = 0;
+}
+
+
+string
+ColorGraph::json() {
+	StringBuffer buffer;
+	Writer<StringBuffer> writer(buffer);
+	doc.Accept(writer);
+	return buffer.GetString();
+}
+
+
+void
+ColorGraph::reportChange(int v1, int v2, int oldColor, int newColor) {
+	Document::AllocatorType& allocator = doc.GetAllocator();
+	Value opArray(kArrayType);
+	opArray.PushBack(v1, allocator);
+	opArray.PushBack(v2, allocator);
+	opArray.PushBack(oldColor, allocator);
+	opArray.PushBack(newColor, allocator);
+	stepArray.PushBack(opArray, allocator);
+	cout << "Colorchange: " << v1 << "," << v2 << " from " << oldColor << " to " << newColor << endl;
+	return;
 }
 
 

@@ -36,7 +36,9 @@ private:
 
 };
 
-
+void reportChange(int v1, int v2, int oldColor, int newColor) {
+	cout << "Colorchange: " << v1 << "," << v2 << " from " << oldColor << " to " << newColor << endl;
+}
 
 
 ColorGraph::ColorGraph(int v, Array<Edge> A)
@@ -60,16 +62,17 @@ ColorGraph::ColorGraph(int v, Array<Edge> A)
 
 	//start coloring processing
 	while (count < size) {
+		cout << "Coloring " << A[count];
 		if (count < max) {
 			int start = A[count].startVx;
 			int end = A[count].endVx;
 			colorMatrix[start - 1][end - 1] = ++count;
 			colorMatrix[end - 1][start - 1] = count;
+			reportChange(start, end, 0, count);
 		}
 		else {
 			//coloring one more edge;
 			AddOneEdge(A, count++);
-
 		}
 	}
 }
@@ -155,7 +158,6 @@ ColorGraph::isIn(int edVx, Array<int> endVertices, int range, int& position)
 
 void
 ColorGraph::AddOneEdge(Array<Edge> A, int k) {
-
 	Edge E = A[k];
 	int x = E.startVx;
 	Array<Edge> xEdges(max - 1);
@@ -201,28 +203,35 @@ ColorGraph::AddOneEdge(Array<Edge> A, int k) {
 		if (!(subPtr->isConnected(x, y))) {
 			// entering SUBCASE I: the alternating-color-path starting from vertex endVertices[position - 1] doesn't end at vertex x
 			switchColor(subPtr, s, t, y);
+			int oldColor = colorMatrix[x - 1][y - 1];
 			colorMatrix[x - 1][y - 1] = s;
 			colorMatrix[y - 1][x - 1] = s;
-
+			reportChange(x, y, oldColor, s);
 		}
 		else {
 			// entering SUBCASE II: the alternating-color-path starting from vertex endVertices[position - 1] ends at vertex x
 			assert(!(subPtr->isConnected(x, z))); // This is guaranteed because vertex x has already used color t and still misses color s
 			recolor(x, endVertices, missingCol, position, xEdgeCount - 1);
 			switchColor(subPtr, s, t, z);
+			int oldColor = colorMatrix[x - 1][z - 1];
 			colorMatrix[x - 1][z - 1] = s;
 			colorMatrix[z - 1][x - 1] = s;
+			reportChange(x, z, oldColor, s);
 		}
 	}
 	else {
 		// entering CASE II: fan terminates at a vertex that misses the same color as vertex x
 		for (int i = xEdgeCount - 2; i >= 0; i--) {
 			int j = endVertices[i] - 1;
+			int oldColor = colorMatrix[x - 1][j];
 			colorMatrix[x - 1][j] = missingCol[j];
 			colorMatrix[j][x - 1] = missingCol[j];
+			reportChange(x, j + 1, oldColor, missingCol[j]);
 		}
+		int oldColor = colorMatrix[x - 1][tmp - 1];
 		colorMatrix[x - 1][tmp - 1] = t;
 		colorMatrix[tmp - 1][x - 1] = t;
+		reportChange(x, tmp, oldColor, t);
 	}
 }
 
@@ -235,12 +244,16 @@ ColorGraph::recolor(int x, Array<int> endVertices, Array<Color> missingCol,
 	assert(start <= position);
 	for (int i = start; i < position; i++) {
 		end = endVertices[i];
+		int oldColor = colorMatrix[x - 1][end - 1];
 		colorMatrix[x - 1][end - 1] = missingCol[end - 1];
 		colorMatrix[end - 1][x - 1] = missingCol[end - 1];
+		reportChange(x, end, oldColor, missingCol[end - 1]);
 	}
 	end = endVertices[position];
+	int oldColor = colorMatrix[x - 1][end - 1];
 	colorMatrix[x - 1][end - 1] = 0;
 	colorMatrix[end - 1][x - 1] = 0;
+	reportChange(x, end, oldColor, 0);
 }
 
 
@@ -291,11 +304,13 @@ ColorGraph::switchColor(Graph *subPtr, Color s, Color t, int vertex)
 					if (colorMatrix[i][I() - 1] == s) {
 						colorMatrix[i][I() - 1] = t;
 						colorMatrix[I() - 1][i] = t;
+						reportChange(i + 1, I(), s, t);
 					}
 					else {
 						assert(colorMatrix[i][I() - 1] == t);
 						colorMatrix[i][I() - 1] = s;
 						colorMatrix[I() - 1][i] = s;
+						reportChange(i + 1, I(), t, s);
 					}
 				}
 			}
@@ -322,6 +337,5 @@ ostream& operator<<(ostream &output, const ColorGraph &graph)
 	}
 	return output;
 }
-
 
 #endif

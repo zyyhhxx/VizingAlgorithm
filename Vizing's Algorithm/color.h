@@ -2,6 +2,7 @@
 #define COLOR_H
 #include "graph.h"
 #include <assert.h>
+#include <fstream>
 #include "Resources/rapidjson/document.h"     // rapidjson's DOM-style API
 #include "Resources/rapidjson/prettywriter.h" // for stringify JSON
 
@@ -12,7 +13,7 @@ typedef Color* ColorPtr;
 //if color = 0, the edge is uncolored (default value);
 //color starts from 1 to max.
 
-class __declspec(dllexport) ColorGraph {
+class ColorGraph {
 	friend  ostream& operator<<(ostream &output, const ColorGraph &graph);
 
 public:
@@ -436,6 +437,24 @@ ostream& operator<<(ostream &output, const ColorGraph &graph)
 		}
 	}
 	return output;
+}
+
+extern "C"             //No name mangling
+__declspec(dllexport)  //Tells the compiler to export the function
+void                     //Function return type     
+__cdecl                //Specifies calling convention, cdelc is default, 
+					   //so this can be omitted 
+getGraphColorJson(int* input, int size) {
+	string result = "";
+	int i = 0;
+	while (i < size) {
+		result += to_string(input[i]) + " ";
+		i++;
+	}
+	ColorGraph cg(result);
+
+	ofstream outputFile("edge colors.json");
+	outputFile << cg.json();
 }
 
 #endif

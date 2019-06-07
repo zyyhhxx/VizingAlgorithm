@@ -1,1 +1,1 @@
-# VizingAlgorithmAnimation
+# VizingAlgorithm
